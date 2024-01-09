@@ -239,3 +239,4 @@ def test_serialization():
     assert enc._pat_str == enc._pat_str
     assert enc._special_tokens == enc._special_tokens
     assert enc._mergeable_ranks == enc._mergeable_ranks
+    
