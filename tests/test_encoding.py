@@ -5,6 +5,7 @@ from typing import Callable
 import hypothesis
 import hypothesis.strategies as st
 import pytest
+import pickle
 
 import tiktoken
 
@@ -229,3 +230,12 @@ def test_hyp_batch_roundtrip(make_enc: Callable[[], tiktoken.Encoding], batch):
     assert encoded == [enc.encode(t) for t in batch]
     decoded = enc.decode_batch(encoded)
     assert decoded == batch
+
+def test_serialization():
+    enc = tiktoken.get_encoding("gpt2")
+    enc2 = pickle.loads(pickle.dumps(enc))
+
+    assert enc.name == enc2.name
+    assert enc._pat_str == enc._pat_str
+    assert enc._special_tokens == enc._special_tokens
+    assert enc._mergeable_ranks == enc._mergeable_ranks
